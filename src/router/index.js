@@ -8,14 +8,15 @@ import { getToken, setToken } from '@/libs/util'
 
 Vue.use(Router)
 const router = new Router({
-  routes
-  // mode: 'history'
+  routes,
+  mode: 'history'
 })
 const LOGIN_PAGE_NAME = 'login'
 
 router.beforeEach((to, from, next) => {
   iView.LoadingBar.start()
   const token = getToken()
+  console.log(to)
   if (!token && to.name !== LOGIN_PAGE_NAME) {
     // 未登录且要跳转的页面不是登录页
     next({
@@ -30,13 +31,15 @@ router.beforeEach((to, from, next) => {
       name: 'home' // 跳转到home页
     })
   } else {
+    console.log(store.state.router.hasRoutes)
+    console.log(store.state.router.routers)
     if (!store.state.router.hasRoutes) {
       console.log('test')
       store.dispatch('getUserInfo').then(user => {
         store.dispatch('updateRoutes').then(routers => {
-          console.log(routers)
+          console.log('12345')
           router.addRoutes(routers)
-          next({ ...to, replace: true })
+          next({ path: to.path, replace: true })
         }).catch(() => {
           setToken('')
           next({ name: 'login' })

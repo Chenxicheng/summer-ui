@@ -148,6 +148,7 @@ export default {
      * @description 初始化设置面包屑导航和标签导航
      */
     console.log('aaaa')
+    console.log(this.$router)
     this.setTagNavList()
     this.addTag({
       route: this.$store.state.app.homeRoute
