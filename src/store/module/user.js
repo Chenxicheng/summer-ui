@@ -50,6 +50,9 @@ export default {
         logout(state.token).then(() => {
           commit('setToken', '')
           commit('setAccess', [])
+          // 退出登录，重置路由
+          commit('SET_HAS_ROUTES', false)
+          commit('RESET_ROUTERS')
           resolve()
         }).catch(err => {
           reject(err)

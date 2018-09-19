@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import { routes } from './routers'
 import store from '@/store'
 import iView from 'iview'
-import { getToken, canTurnTo } from '@/libs/util'
+import { getToken, setToken } from '@/libs/util'
+import clonedeep from 'clonedeep'
 
 Vue.use(Router)
 const router = new Router({
@@ -29,11 +30,25 @@ router.beforeEach((to, from, next) => {
       name: 'home' // 跳转到home页
     })
   } else {
-    store.dispatch('getUserInfo').then(user => {
-      // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
-      if (canTurnTo(to.name, user.access, routes)) next() // 有权限，可访问
-      else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
-    })
+    if (!store.state.router.hasRoutes) {
+      store.dispatch('getUserInfo').then(user => {
+        store.dispatch('updateRoutes').then(routers => {
+          router.addRoutes(clonedeep(routers))
+          next({ ...to, replace: true })
+        }).catch(() => {
+          setToken('')
+          next({ name: 'login' })
+        })
+      }).catch(() => {
+        setToken('')
+        next({ name: 'login' })
+      })
+    } else next()
+    // store.dispatch('getUserInfo').then(user => {
+    //   // 拉取用户信息，通过用户权限和跳转的页面的name来判断是否有权限访问;access必须是一个数组，如：['super_admin'] ['super_admin', 'admin']
+    //   if (canTurnTo(to.name, user.access, routes)) next() // 有权限，可访问
+    //   else next({ replace: true, name: 'error_401' }) // 无权限，重定向到401页面
+    // })
   }
 })
 
