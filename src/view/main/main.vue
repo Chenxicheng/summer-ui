@@ -104,6 +104,7 @@ export default {
         window.open(name.split('_')[1])
         return
       }
+      console.log(name)
       this.$router.push({
         name,
         params,
@@ -137,6 +138,7 @@ export default {
   watch: {
     '$route' (newRoute) {
       console.log(newRoute)
+      console.log(newRoute.matched)
       this.setBreadCrumb(newRoute.matched)
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
     }
@@ -145,6 +147,7 @@ export default {
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
+    console.log('aaaa')
     this.setTagNavList()
     this.addTag({
       route: this.$store.state.app.homeRoute
@@ -152,27 +155,6 @@ export default {
     this.setBreadCrumb(this.$route.matched)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)
-    // 文档提示
-    this.$Notice.info({
-      title: '想快速上手，去看文档吧',
-      duration: 0,
-      render: (h) => {
-        return h('p', {
-          style: {
-            fontSize: '13px'
-          }
-        }, [
-          '点击',
-          h('a', {
-            attrs: {
-              href: 'https://lison16.github.io/iview-admin-doc/#/',
-              target: '_blank'
-            }
-          }, 'iview-admin2.0文档'),
-          '快速查看'
-        ])
-      }
-    })
   }
 }
 </script>

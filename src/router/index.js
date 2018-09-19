@@ -4,12 +4,12 @@ import { routes } from './routers'
 import store from '@/store'
 import iView from 'iview'
 import { getToken, setToken } from '@/libs/util'
-import clonedeep from 'clonedeep'
+// import clonedeep from 'clonedeep'
 
 Vue.use(Router)
 const router = new Router({
-  routes,
-  mode: 'history'
+  routes
+  // mode: 'history'
 })
 const LOGIN_PAGE_NAME = 'login'
 
@@ -31,9 +31,11 @@ router.beforeEach((to, from, next) => {
     })
   } else {
     if (!store.state.router.hasRoutes) {
+      console.log('test')
       store.dispatch('getUserInfo').then(user => {
         store.dispatch('updateRoutes').then(routers => {
-          router.addRoutes(clonedeep(routers))
+          console.log(routers)
+          router.addRoutes(routers)
           next({ ...to, replace: true })
         }).catch(() => {
           setToken('')

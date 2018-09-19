@@ -70,6 +70,7 @@ export const routes = [
 ]
 
 export const routerMap = {
+  // 'Main': Main,
   'update_table_page': () => import('@/view/update/update-table.vue'),
   'update_paste_page': () => import('@/view/update/update-paste.vue')
 }

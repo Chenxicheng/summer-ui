@@ -24,7 +24,7 @@ const mutations = {
 // 创造路由信息
 const createRouterList = (routerList, routermap) => {
   return routerList.map(item => {
-    if (item.component === 'Main') item.component = Main
+    if (item.component && item.component === 'Main') item.component = Main
     else {
       item.component = routermap[item.name]
     }
@@ -41,7 +41,6 @@ const actions = {
       // 获取路由列表
       getRouterList().then(res => {
         let routerList = createRouterList(res.data, routerMap)
-        console.log(routerList)
         commit('CONCAT_ROUTES', routerList)
         resolve(state.routers)
       }).catch(error => reject(error))

@@ -15,8 +15,7 @@ export const getRouterList = req => {
           meta: {
             icon: 'ios-document',
             title: '上传Csv'
-          },
-          component: '@/view/update/update-table.vue'
+          }
         },
         {
           path: 'update_paste_page',
@@ -24,8 +23,7 @@ export const getRouterList = req => {
           meta: {
             icon: 'md-clipboard',
             title: '粘贴表格数据'
-          },
-          component: '@/view/update/update-paste.vue'
+          }
         }
       ]
     }
