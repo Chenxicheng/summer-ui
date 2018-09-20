@@ -8,8 +8,8 @@ import { getToken, setToken } from '@/libs/util'
 
 Vue.use(Router)
 const router = new Router({
-  routes
-  // mode: 'history'
+  routes,
+  mode: 'history'
 })
 const LOGIN_PAGE_NAME = 'login'
 
@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
         store.dispatch('updateRoutes').then(routers => {
           console.log(routers)
           router.addRoutes(routers)
-          next({ ...to, replace: true })
+          next({ path: to.path, replace: true })
         }).catch(() => {
           setToken('')
           next({ name: 'login' })
