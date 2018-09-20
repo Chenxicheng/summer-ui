@@ -2,8 +2,8 @@
   <div>
     <p>user-manage</p>
     <div>
-      <Button v-has="'add'">Add</Button>
-      <Button v-has="'edit'">Edit</Button>
+      <Button v-hasBtn="'add'">Add</Button>
+      <Button v-hasBtn="'edit'">Edit</Button>
     </div>
   </div>
 </template>

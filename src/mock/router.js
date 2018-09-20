@@ -42,7 +42,7 @@ export const getRouterList = req => {
           meta: {
             icon: 'ios-document',
             title: '用户管理',
-            permission: ['add']
+            permission: ['add', 'edit']
           }
         },
         {

@@ -26,18 +26,6 @@ Vue.config.productionTip = false
 Vue.prototype.$config = config
 
 /**
- * @description 注册按钮级别权限控制指令 v-has
- */
-Vue.directive('has', {
-  bind (el, binding, vnode) {
-    let permTypes = vnode.context.$route.meta.permission;
-    if (!permTypes.includes(binding.value)) {
-        el.parentNode.removeChild(el);
-    }
-  }
-})
-
-/**
  * 注册指令
  */
 importDirective(Vue)

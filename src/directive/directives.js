@@ -39,6 +39,12 @@ const directives = {
       let bodyDom = document.querySelector(binding.value.body)
       bodyDom.style.transform = ''
     }
+  },
+  hasPermission: {
+    bind: (el, binding, vnode) => {
+      let permTypes = vnode.context.$route.meta.permission
+      if (!permTypes.includes(binding.value)) el.parentNode.removeChild(el)
+    }
   }
 }
 

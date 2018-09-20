@@ -10,6 +10,10 @@ const importDirective = Vue => {
    * }
    */
   Vue.directive('draggable', directive.draggable)
+  /**
+   *
+   */
+  Vue.directive('hasBtn', directive.hasPermission)
 }
 
 export default importDirective
