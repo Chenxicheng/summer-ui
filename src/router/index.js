@@ -34,10 +34,8 @@ router.beforeEach((to, from, next) => {
     console.log(store.state.router.hasRoutes)
     console.log(store.state.router.routers)
     if (!store.state.router.hasRoutes) {
-      console.log('test')
       store.dispatch('getUserInfo').then(user => {
         store.dispatch('updateRoutes').then(routers => {
-          console.log('12345')
           router.addRoutes(routers)
           next({ path: to.path, replace: true })
         }).catch(() => {

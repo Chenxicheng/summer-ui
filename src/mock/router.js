@@ -26,6 +26,34 @@ export const getRouterList = req => {
           }
         }
       ]
+    },
+    {
+      path: '/sys-manage',
+      name: 'sys-manage',
+      meta: {
+        icon: 'md-cloud-upload',
+        title: '系统管理'
+      },
+      component: 'Main',
+      children: [
+        {
+          path: 'user-manage',
+          name: 'user-manage',
+          meta: {
+            icon: 'ios-document',
+            title: '用户管理',
+            permission: ['add', 'edit']
+          }
+        },
+        {
+          path: 'menu-manage',
+          name: 'menu-manage',
+          meta: {
+            icon: 'md-clipboard',
+            title: '菜单管理'
+          }
+        }
+      ]
     }
   ]
   return routers

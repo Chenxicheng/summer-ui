@@ -104,7 +104,6 @@ export default {
         window.open(name.split('_')[1])
         return
       }
-      console.log(name)
       this.$router.push({
         name,
         params,
@@ -137,8 +136,6 @@ export default {
   },
   watch: {
     '$route' (newRoute) {
-      console.log(newRoute)
-      console.log(newRoute.matched)
       this.setBreadCrumb(newRoute.matched)
       this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
     }
@@ -147,8 +144,6 @@ export default {
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
-    console.log('aaaa')
-    console.log(this.$router)
     this.setTagNavList()
     this.addTag({
       route: this.$store.state.app.homeRoute
