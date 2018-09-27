@@ -35,12 +35,38 @@ const createRouterList = (routerList, routermap) => {
   })
 }
 
+const createRouterList2 = (routerList, routermap) => {
+  return routerList.map(item => {
+    let obj = null
+    if (item.type === '0') { //
+      obj = {
+        path: item.path,
+        name: item.name,
+        meta: {
+          icon: item.icon,
+          title: item.title
+        }
+      }
+      if (item.level && item.level === '1') obj.component = Main
+      else obj.component = routermap[item.name]
+
+      if (item.children && item.children.length) {
+        if (item.children[0].type === '0') obj.children = createRouterList2(item.children, routermap)
+        else obj.meta.permission = createRouterList2(item.children, routermap)
+      }
+    } else obj = item.name
+
+    return obj
+  })
+}
+
 const actions = {
-  updateRoutes ({ commit }) {
+  updateRoutes ({ state, commit, rootState }) {
     return new Promise((resolve, reject) => {
       // 获取路由列表
-      getRouterList().then(res => {
-        let routerList = createRouterList(res.data, routerMap)
+      getRouterList(rootState.user.userId).then(res => {
+        const data = res.data
+        let routerList = createRouterList2(data.menuList, routerMap)
         commit('CONCAT_ROUTES', routerList)
         resolve(state.routers)
       }).catch(error => reject(error))

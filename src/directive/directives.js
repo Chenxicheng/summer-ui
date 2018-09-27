@@ -42,8 +42,8 @@ const directives = {
   },
   hasPermission: {
     bind: (el, binding, vnode) => {
-      let permTypes = vnode.context.$route.meta.permission
-      if (!permTypes.includes(binding.value)) el.parentNode.removeChild(el)
+      let permTypes = vnode.context.$route.meta.permission ? vnode.context.$route.meta.permission : []
+      if (permTypes.length && !permTypes.includes(binding.value)) el.parentNode.removeChild(el)
     }
   }
 }

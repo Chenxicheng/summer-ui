@@ -312,3 +312,34 @@ export const routeHasExist = (tagNavList, routeItem) => {
   })
   return res
 }
+
+/**
+ * 转变post请求参数
+ * @param {*} obj
+ */
+export const transformRequestData = (obj) => {
+  let query = ''
+  // let name, value, fullSubName, subName, subValue, innerObj, i
+  for (let name in obj) {
+    let value = obj[name]
+    if (value instanceof Array) {
+      value.forEach((item, index) => {
+        let fullSubName = `${name}[${index}]`
+        let innerObj = {}
+        innerObj[fullSubName] = item
+        query += transformRequestData(innerObj) + '&'
+      })
+    } else if (value instanceof Object) {
+      for (let keyName in value) {
+        let valueName = value[keyName]
+        let fullSubName = `${name}[${keyName}]`
+        let innerObj = {}
+        innerObj[fullSubName] = valueName
+        query += transformRequestData(innerObj) + '&'
+      }
+    } else if (value !== undefined && value !== null) {
+      query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&'
+    }
+  }
+  return query.length ? query.substr(0, query.length - 1) : query
+}

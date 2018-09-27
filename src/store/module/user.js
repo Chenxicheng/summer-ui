@@ -36,7 +36,6 @@ export default {
           userName,
           password
         }).then(res => {
-          console.log(res)
           const data = res.data
           commit('setToken', data.token)
           resolve()
@@ -65,9 +64,9 @@ export default {
       })
     },
     // 获取用户相关信息
-    getUserInfo ({ state, commit }) {
+    getUserInfo ({ commit }) {
       return new Promise((resolve, reject) => {
-        getUserInfo(state.token).then(res => {
+        getUserInfo().then(res => {
           const data = res.data
           commit('setAvator', data.avator)
           commit('setUserName', data.user_name)

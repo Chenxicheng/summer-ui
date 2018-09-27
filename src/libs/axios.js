@@ -1,5 +1,6 @@
 import axios from 'axios'
-// import { Spin } from 'iview'
+import { getToken, transformRequestData } from '@/libs/util'
+// import { Message } from 'iview'
 class HttpRequest {
   constructor (baseUrl = baseURL) {
     this.baseUrl = baseUrl
@@ -23,6 +24,9 @@ class HttpRequest {
   interceptors (instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {
+      if (!config.url.includes('login')) {
+        config.headers['Authorization'] = getToken()
+      }
       // 添加全局的loading...
       if (!Object.keys(this.queue).length) {
         // Spin.show() // 不建议开启，因为界面不友好
@@ -36,6 +40,10 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       this.distroy(url)
       const { data, status } = res
+      // if (data.code !== 200) {
+      //   Message.error(data.message)
+      //   return false
+      // }
       return { data, status }
     }, error => {
       this.distroy(url)
@@ -44,6 +52,10 @@ class HttpRequest {
   }
   request (options) {
     const instance = axios.create()
+    if (options.method === 'post' || options.method === 'put') {
+      options.transformRequest = [data => transformRequestData(data)]
+      options.headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    }
     options = Object.assign(this.getInsideConfig(), options)
     this.interceptors(instance, options.url)
     return instance(options)

@@ -82,4 +82,5 @@ export const routerMap = {
   'update_paste_page': () => import('@/view/update/update-paste.vue'),
   'user-manage': () => import('@/view/sys-manage/user-manage.vue'),
   'menu-manage': () => import('@/view/sys-manage/menu-manage.vue'),
+  'role-manage': () => import('@/view/sys-manage/role-manage.vue'),
 }
