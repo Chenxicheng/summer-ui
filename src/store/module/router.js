@@ -1,6 +1,6 @@
 import { routes, routerMap } from '@/router/routers'
 import { getRouterList } from '@/api/router'
-import Main from '@/view/main'
+import Main from '@/components/main'
 // import lazyLoadComponent from '@/libs/lazyLoadComponent'
 
 const state = {
