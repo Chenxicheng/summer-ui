@@ -1,7 +1,7 @@
 <template>
   <div>
     <Table :border="border" :columns="columns" :data="data"></Table>
-    <Page :total="100" show-total />
+    <Page :total="total" :page-size="pageSize" show-total @on-change="changePage"/>
   </div>
 </template>
 <script>
@@ -23,10 +23,26 @@ export default {
     border: {
       type: Boolean,
       default: true
+    },
+    total: {
+      type: Number,
+      default: 0
+    },
+    pageSize: {
+      type: Number,
+      default: 10
     }
   },
   watch: {
-    //
+    columns (val) {
+      this.columns = val
+    },
+    data (val) {
+      this.data = val
+    },
+    total (val) {
+      this.total = val
+    }
   },
   data () {
     return {
@@ -34,7 +50,9 @@ export default {
     }
   },
   methods: {
-    //
+    changePage (page) { // 改变页数
+      this.$emit('on-change-page', page)
+    }
   }
 }
 </script>

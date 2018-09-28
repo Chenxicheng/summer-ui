@@ -1,6 +1,6 @@
 <template>
   <div>
-    <table-page></table-page>
+    <table-page @on-change-page="changePage"></table-page>
     <p>user-manage</p>
     <div>
       <Button v-hasBtn="'add'">Add</Button>
@@ -14,6 +14,16 @@ import TablePage from '_c/table-page'
 export default {
   components: {
     TablePage
+  },
+  data () {
+    return {
+      //
+    }
+  },
+  methods: {
+    changePage (page) {
+      console.log(page)
+    }
   }
 }
 </script>

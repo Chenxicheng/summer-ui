@@ -15,7 +15,7 @@ class HttpRequest {
     }
     return config
   }
-  distroy (url) {
+  destroy (url) {
     delete this.queue[url]
     if (!Object.keys(this.queue).length) {
       // Spin.hide()
@@ -38,7 +38,7 @@ class HttpRequest {
     })
     // 响应拦截
     instance.interceptors.response.use(res => {
-      this.distroy(url)
+      this.destroy(url)
       const { data, status } = res
       // if (data.code !== 200) {
       //   Message.error(data.message)
@@ -46,7 +46,7 @@ class HttpRequest {
       // }
       return { data, status }
     }, error => {
-      this.distroy(url)
+      this.destroy(url)
       return Promise.reject(error)
     })
   }
