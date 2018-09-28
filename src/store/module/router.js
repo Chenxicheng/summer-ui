@@ -35,10 +35,15 @@ const createRouterList = (routerList, routermap) => {
   })
 }
 
+/**
+ * 转换后台数据为route使用的数据
+ * @param {*} routerList
+ * @param {*} routermap
+ */
 const createRouterList2 = (routerList, routermap) => {
   return routerList.map(item => {
     let obj = null
-    if (item.type === '0') { //
+    if (item.type === '0') { // 页面类型
       obj = {
         path: item.path,
         name: item.name,
@@ -47,14 +52,16 @@ const createRouterList2 = (routerList, routermap) => {
           title: item.title
         }
       }
-      if (item.level && item.level === '1') obj.component = Main
-      else obj.component = routermap[item.name]
+      if (item.level && item.level === '1') {
+        if (item.children && item.children.length) obj.component = Main
+        else obj.component = routermap[item.name]
+      } else obj.component = routermap[item.name]
 
       if (item.children && item.children.length) {
         if (item.children[0].type === '0') obj.children = createRouterList2(item.children, routermap)
         else obj.meta.permission = createRouterList2(item.children, routermap)
       }
-    } else obj = item.name
+    } else obj = item.name // 按钮类型
 
     return obj
   })
