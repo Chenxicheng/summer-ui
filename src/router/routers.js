@@ -81,7 +81,7 @@ export const routerMap = {
   // 'Main': Main,
   'update_table_page': () => import('@/view/update/update-table.vue'),
   'update_paste_page': () => import('@/view/update/update-paste.vue'),
-  'user-manage': () => import('@/view/sys-manage/user-manage.vue'),
+  'user-manage': () => import('@/view/sys-manage/user/user-manage.vue'),
   'menu-manage': () => import('@/view/sys-manage/menu-manage.vue'),
   'role-manage': () => import('@/view/sys-manage/role-manage.vue'),
 }
