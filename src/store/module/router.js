@@ -48,6 +48,7 @@ const createRouterList2 = (routerList, routermap) => {
         path: item.path,
         name: item.name,
         meta: {
+          notCache: false,
           icon: item.icon,
           title: item.title
         }

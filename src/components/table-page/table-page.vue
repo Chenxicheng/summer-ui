@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <Row>
     <Table :border="border" :columns="columns" :data="data"></Table>
+    <br>
     <Page :total="total" :page-size="pageSize" show-total @on-change="changePage"/>
+  </Row>
   </div>
 </template>
 <script>
