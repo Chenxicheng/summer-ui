@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Modal v-model="show" title="添加用户"
+    <Modal v-model="show" :title="modelType === 'add' ? '添加用户':'修改用户'"
             :mask-closable="false" :closable="false" >
       <Form ref="modalForm" :model="data" :rules="ruls"
                   :label-width="80">
