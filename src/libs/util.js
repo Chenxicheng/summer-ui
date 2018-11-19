@@ -58,6 +58,7 @@ export const getMenuByRouter = (list) => {
  */
 export const getBreadCrumbList = (route, homeRoute) => {
   let routeMetched = route.matched
+  if (routeMetched.some(item => item.name === homeRoute.name)) return [homeRoute]
   let res = routeMetched.filter(item => {
     return item.meta === undefined || !item.meta.hide
   }).map(item => {
@@ -111,7 +112,7 @@ export const getHomeRoute = (routers, homeName = 'home') => {
   while (++i < len) {
     let item = routers[i]
     if (item.children && item.children.length) {
-      let res = getHomeRoute(item.children)
+      let res = getHomeRoute(item.children, homeName)
       if (res.name) return res
     } else {
       if (item.name === homeName) homeRoute = item
