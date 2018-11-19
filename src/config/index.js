@@ -8,12 +8,16 @@ export default {
    *              如果不使用，则需要在路由中给需要在菜单中展示的路由设置meta: {title: 'xxx'}
    *              用来在菜单中显示文字
    */
-  useI18n: false,
+  useI18n: true,
   /**
    * @description api请求基础路径
    */
   baseUrl: {
     dev: 'http://localhost:8082',
     pro: 'https://produce.com'
-  }
+  },
+  /**
+    * @description 默认打开的首页的路由name值，默认为home
+    */
+  homeName: 'home'
 }
