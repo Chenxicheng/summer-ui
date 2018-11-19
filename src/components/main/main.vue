@@ -43,6 +43,7 @@ import Language from './components/language'
 import ErrorStore from './components/error-store'
 import { mapMutations, mapActions, mapGetters } from 'vuex'
 import { getNewTagList, getNextRoute, routeEqual } from '@/libs/util'
+import routes from '@/router/routers'
 import minLogo from '@/assets/images/logo-min.jpg'
 import maxLogo from '@/assets/images/logo.jpg'
 import './main.less'
@@ -96,7 +97,8 @@ export default {
       'setBreadCrumb',
       'setTagNavList',
       'addTag',
-      'setLocal'
+      'setLocal',
+      'setHomeRoute'
     ]),
     ...mapActions([
       'handleLogin'
@@ -153,10 +155,11 @@ export default {
     /**
      * @description 初始化设置面包屑导航和标签导航
      */
+    this.setTagNavList()
+    this.setHomeRoute(routes)
     this.addTag({
       route: this.$store.state.app.homeRoute
     })
-    this.setTagNavList()
     this.setBreadCrumb(this.$route)
     // 设置初始语言
     this.setLocal(this.$i18n.locale)

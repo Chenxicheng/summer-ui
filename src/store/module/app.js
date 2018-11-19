@@ -14,7 +14,7 @@ import {
 import beforeClose from '@/router/before-close'
 import { saveErrorLogger } from '@/api/data'
 import router from '@/router'
-import { routes } from '@/router/routers'
+// import { routes } from '@/router/routers'
 import config from '@/config'
 const { homeName } = config
 
@@ -30,7 +30,7 @@ export default {
   state: {
     breadCrumbList: [],
     tagNavList: [],
-    homeRoute: getHomeRoute(routes, homeName),
+    homeRoute: {},
     local: localRead('local'),
     errorList: [],
     hasReadErrorPage: false
@@ -42,6 +42,9 @@ export default {
   mutations: {
     setBreadCrumb (state, route) {
       state.breadCrumbList = getBreadCrumbList(route, state.homeRoute)
+    },
+    setHomeRoute (state, routes) {
+      state.homeRoute = getHomeRoute(routes, homeName)
     },
     setTagNavList (state, list) {
       let tagList = []
