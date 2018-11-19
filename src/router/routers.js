@@ -1,5 +1,5 @@
 import Main from '@/components/main'
-import parentView from '@/components/parent-view'
+// import parentView from '@/components/parent-view'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
@@ -12,7 +12,7 @@ import parentView from '@/components/parent-view'
  * }
  */
 
- /**
+/**
   * 基础路由
   */
 export const routes = [
@@ -123,5 +123,5 @@ export const routerMap = {
   'update_paste_page': () => import('@/view/update/update-paste.vue'),
   'user-manage': () => import('@/view/sys-manage/user/user-manage.vue'),
   'menu-manage': () => import('@/view/sys-manage/menu-manage.vue'),
-  'role-manage': () => import('@/view/sys-manage/role-manage.vue'),
+  'role-manage': () => import('@/view/sys-manage/role-manage.vue')
 }
