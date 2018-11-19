@@ -10,5 +10,6 @@ Mock.mock(/\/logout/, logout)
 Mock.mock(/\/get_table_data/, getTableData)
 Mock.mock(/\/get_drag_list/, getDragList)
 // Mock.mock(/\/getRouterList/, getRouterList)
+Mock.mock(/\/save_error_logger/, 'success')
 
 export default Mock
