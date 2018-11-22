@@ -39,7 +39,7 @@
   </div>
 </template>
 <script>
-import { getDataInfo } from '@/api/commen'
+import { getDataInfo, addData } from '@/api/commen'
 
 const BASE_URL = '/api/sys/user'
 
@@ -111,11 +111,14 @@ export default {
       this.$refs['modalForm'].validate((valid) => {
         if (valid) {
           this.loading = true
-          setTimeout(() => {
-            this.$Message.success('This is a success tip')
-            this.loading = false
-            this.cancel(true)
-          }, 1000)
+          console.log('aaaaaaaaaaaa')
+          addData(`${BASE_URL}/save`, this.createEntity).then(res => {
+            if (res.status) {
+              this.$Message.success(res.message)
+              this.loading = false
+              this.cancel(true)
+            }
+          })
         }
       })
     }

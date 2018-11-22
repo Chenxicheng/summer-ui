@@ -27,6 +27,7 @@ import UserSearch from './component/user-search'
 
 const BASE_URL = 'api/sys/user'
 export default {
+  name: 'user-manage',
   components: {
     TablePage,
     AddUser,
@@ -95,9 +96,9 @@ export default {
     getPageList () {
       findPage(`${BASE_URL}/findPage`, this.searchEntity).then(
         res => {
-          const data = res.data
-          this.searchEntity.total = data.count
-          this.entityList = data.list
+          const data = res.data.result
+          this.searchEntity.total = data.total
+          this.entityList = data.records
         }
       )
     },

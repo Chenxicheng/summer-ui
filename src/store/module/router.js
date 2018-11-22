@@ -74,7 +74,7 @@ const actions = {
       // 获取路由列表
       getRouterList(rootState.user.userId).then(res => {
         const data = res.data
-        let routerList = createRouterList2(data.menuList, routerMap)
+        let routerList = createRouterList2(data.result, routerMap)
         commit('CONCAT_ROUTES', routerList)
         resolve(state.routers)
       }).catch(error => reject(error))
