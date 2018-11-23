@@ -72,7 +72,7 @@ const actions = {
   updateRoutes ({ state, commit, rootState }) {
     return new Promise((resolve, reject) => {
       // 获取路由列表
-      getRouterList(rootState.user.userId).then(res => {
+      getRouterList().then(res => {
         const data = res.data
         let routerList = createRouterList2(data.result, routerMap)
         commit('CONCAT_ROUTES', routerList)

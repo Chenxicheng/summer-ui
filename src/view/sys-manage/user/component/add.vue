@@ -13,10 +13,10 @@
         <FormItem label="密码" prop="password">
           <Input type="password" v-model.trim="data.password"></Input>
         </FormItem>
-        <!-- <FormItem label="重复密码" prop="rePassword">
+        <FormItem label="重复密码" prop="rePassword">
             <Input type="password" v-model.trim="data.rePassword"></Input>
         </FormItem>
-        <FormItem label="年龄" prop="age">
+        <!-- <FormItem label="年龄" prop="age">
             <InputNumber :min="0" :step="1" v-model.trim="data.age" style="width:100%"/>
         </FormItem>
         <FormItem label="状态" prop="status">
@@ -40,6 +40,7 @@
 </template>
 <script>
 import { getDataInfo, addData } from '@/api/commen'
+import { verifyUsername } from '@/api/user'
 
 const BASE_URL = '/api/sys/user'
 
@@ -68,21 +69,59 @@ export default {
     }
   },
   data () {
+    const validateUsername = (rule, value, callback) => {
+      console.log('1' + value)
+      if (!value) {
+        return callback(new Error('请输入用户名'))
+      }
+      console.log('2' + value)
+      // 异步校验用户名是否重复
+      verifyUsername(value).then(res => {
+        let data = res.data
+        if (!data.status) callback(new Error('用户名已存在'))
+        else callback()
+      })
+    }
+
+    const validatePassword = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.data.rePassword !== '') {
+          // 对第二个密码框单独验证
+          this.$refs.modalForm.validateField('rePassword')
+        }
+        callback()
+      }
+    }
+    const validateRePassword = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入确认密码'))
+      } else if (value !== this.data.password) {
+        callback(new Error('两次输入密码不匹配'))
+      } else {
+        callback()
+      }
+    }
+
     return {
       show: true,
       loading: false,
       data: {},
       ruls: {
         username: [
-          { required: true, message: '用户名不能为空' },
-          {pattern: /^(\w){4,16}$/, message: '用户名应为[A-Za-z0-9_]组成的4-16位字符'}
+          {pattern: /^(\w){4,16}$/, message: '用户名应为[A-Za-z0-9_]组成的4-16位字符'},
+          { validator: validateUsername, trigger: 'blur' } // 校验用户名不重复
         ],
         password: [
-          { required: true, message: '请填写密码' },
-          {pattern: /^(\w){6,18}$/, message: '密码应为[A-Za-z0-9_]组成的6-18位字符'}
+          {pattern: /^(\w){6,18}$/, message: '密码应为[A-Za-z0-9_]组成的6-18位字符'},
+          { validator: validatePassword, trigger: 'blur' }
+        ],
+        rePassword: [
+          { validator: validateRePassword, trigger: 'blur' }
         ],
         name: [
-          { required: true, message: '请填写姓名' }
+          { required: true, message: '请输入姓名' }
         ]
         // rePassword: [{ validator: validateConfirmPwd }],
         // age: [{ required: true, message: "年龄不能为空" }],
@@ -96,6 +135,7 @@ export default {
       return {
         username: '',
         password: '',
+        rePassword: '',
         name: ''
       }
     },
@@ -111,13 +151,13 @@ export default {
       this.$refs['modalForm'].validate((valid) => {
         if (valid) {
           this.loading = true
-          console.log('aaaaaaaaaaaa')
-          addData(`${BASE_URL}/save`, this.createEntity).then(res => {
-            if (res.status) {
-              this.$Message.success(res.message)
-              this.loading = false
+          addData(`${BASE_URL}/save`, this.data).then(res => {
+            let data = res.data
+            if (data.status) {
+              this.$Message.success(data.message)
               this.cancel(true)
             }
+            this.loading = false
           })
         }
       })

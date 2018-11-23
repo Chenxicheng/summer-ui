@@ -25,3 +25,16 @@ export const logout = (token) => {
     method: 'post'
   })
 }
+
+/**
+ * 校验用户名是否重复
+ * @param {*} username
+ */
+export const verifyUsername = (username) => {
+  const params = { username }
+  return axios.request({
+    url: '/api/commen/security/verifyUsername',
+    params,
+    method: 'get'
+  })
+}
