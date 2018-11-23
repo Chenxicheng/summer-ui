@@ -4,17 +4,14 @@
             :mask-closable="false" :closable="false" >
       <Form ref="modalForm" :model="data" :rules="ruls"
                   :label-width="80">
-        <FormItem label="用户名" prop="username">
-          <Input v-model.trim="data.username"></Input>
-        </FormItem>
-        <FormItem label="姓名" prop="name">
+        <FormItem label="英文名称" prop="name">
           <Input v-model.trim="data.name"></Input>
         </FormItem>
-        <FormItem label="密码" prop="password">
-          <Input type="password" v-model.trim="data.password"></Input>
+        <FormItem label="名称" prop="cnName">
+          <Input v-model.trim="data.cnName"></Input>
         </FormItem>
-        <FormItem label="重复密码" prop="rePassword">
-            <Input type="password" v-model.trim="data.rePassword"></Input>
+        <FormItem label="备注">
+          <Input type="textarea" v-model.trim="data.remarks"></Input>
         </FormItem>
         <!-- <FormItem label="年龄" prop="age">
             <InputNumber :min="0" :step="1" v-model.trim="data.age" style="width:100%"/>
@@ -33,19 +30,19 @@
       </Form>
       <div slot="footer">
           <Button :disabled="loading" @click="cancel(false)">取消</Button>
-          <Button v-if="modelType !== 'view'" type="primary" :loading="loading" @click="ok">确定</Button>
+          <Button type="primary" :loading="loading" @click="ok">确定</Button>
       </div>
     </Modal>
   </div>
 </template>
 <script>
 import { getDataInfo, addData } from '@/api/commen'
-import { verifyUsername } from '@/api/user'
+import { validateName } from '@/api/role'
 
-const BASE_URL = '/api/sys/user'
+const BASE_URL = '/api/sys/role'
 
 export default {
-  name: 'userAdd',
+  name: 'roleForm',
   props: {
     modelType: {
       type: String,
@@ -69,38 +66,16 @@ export default {
     }
   },
   data () {
-    const validateUsername = (rule, value, callback) => {
+    const checkName = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('请输入用户名'))
+        return callback(new Error('请输入英文名称'))
       }
-      // 异步校验用户名是否重复
-      verifyUsername(value).then(res => {
+      validateName(value).then(res => {
         let data = res.data
         console.log(data)
-        if (!data.status) callback(new Error('用户名已存在'))
+        if (!data.status) callback(new Error('英文名称已存在'))
         else callback()
       })
-    }
-
-    const validatePassword = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
-      } else {
-        if (this.data.rePassword !== '') {
-          // 对第二个密码框单独验证
-          this.$refs.modalForm.validateField('rePassword')
-        }
-        callback()
-      }
-    }
-    const validateRePassword = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入确认密码'))
-      } else if (value !== this.data.password) {
-        callback(new Error('两次输入密码不匹配'))
-      } else {
-        callback()
-      }
     }
 
     return {
@@ -108,27 +83,15 @@ export default {
       loading: false,
       data: {},
       ruls: {
-        username: [
-          { required: true },
-          { pattern: /^(\w){4,16}$/, message: '用户名应为[A-Za-z0-9_]组成的4-16位字符' },
-          { validator: validateUsername, trigger: 'blur' } // 校验用户名不重复
-        ],
-        password: [
-          { required: true },
-          { pattern: /^(\w){6,18}$/, message: '密码应为[A-Za-z0-9_]组成的6-18位字符' },
-          { validator: validatePassword, trigger: 'blur' }
-        ],
-        rePassword: [
-          { required: true },
-          { validator: validateRePassword, trigger: 'blur' }
-        ],
         name: [
-          { required: true, message: '请输入姓名' }
+          { required: true, message: '请输入名称' },
+          { pattern: /^(ROLE_[A-Z]+)|(ROLE_[A-Z]+[0-9]+)$/, message: '以ROLE_为首的大写英文或加数字组成' },
+          { type: 'string', max: 20, message: '长度不超过20个字符', trigger: 'blur' },
+          { validator: checkName, trigger: 'blur' }
+        ],
+        cnName: [
+          { required: true, message: '请输入名称' }
         ]
-        // rePassword: [{ validator: validateConfirmPwd }],
-        // age: [{ required: true, message: "年龄不能为空" }],
-        // status: [{ required: true, message: "用户状态不能为空" }],
-        // roles: [{ required: true, message: "请至少选择一个角色" }]
       }
     }
   },
