@@ -1,4 +1,5 @@
 import axios from '@/libs/api.request'
+const BASE_URL = '/api/sys/role'
 /**
  * 校验英文名称
  * @param {*} name
@@ -6,7 +7,7 @@ import axios from '@/libs/api.request'
 export const validateName = (name) => {
   const params = { name }
   return axios.request({
-    url: '/api/sys/role/validateName',
+    url: `${BASE_URL}/validateName`,
     params,
     method: 'get'
   })
