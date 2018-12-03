@@ -26,12 +26,21 @@
                 <Input v-model="menu.path"/>
               </FormItem>
               <FormItem label="图标" prop="path">
+                <Icon :type="menu.icon" size="20"/>
+                <Input disabled v-model="menu.icon" style="width: 200px"/>
                 <Button @click="chooseIcon">选择图标</Button>
               </FormItem>
               <FormItem label="排序" prop="sort">
                 <Input v-model="menu.sort"/>
               </FormItem>
             </Form>
+            <Divider orientation="center">按钮或资源</Divider>
+            <Row>
+              <Button>添加按钮</Button>
+            </Row>
+            <Row>
+              <Table border ref="selection" :columns="buttonColumn" :data="menu.children"></Table>
+            </Row>
           </Card>
         </Col>
       </Row>
@@ -52,7 +61,26 @@ export default {
     return {
       allMenu: [],
       menu: {},
-      showIconModel: false
+      showIconModel: false,
+      buttonColumn: [
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
+        {
+          title: '名称',
+          key: 'title'
+        },
+        {
+          title: 'url',
+          key: 'path'
+        },
+        {
+          title: '英文名称',
+          key: 'name'
+        }
+      ]
     }
   },
   created () {
@@ -77,8 +105,9 @@ export default {
     chooseIcon () {
       this.showIconModel = true
     },
-    iconModelCancel (reload) {
-      this.showIconModel = reload
+    iconModelCancel (iconName) {
+      this.showIconModel = false
+      this.menu.icon = iconName
     }
   }
 }

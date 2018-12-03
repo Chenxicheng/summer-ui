@@ -49,11 +49,12 @@ export default {
     }
   },
   methods: {
-    cancel (reload) {
-      this.$emit('cancel', reload)
+    cancel (iconName) {
+      this.$emit('cancel', iconName)
     },
     ok () {
-      this.cancel(false)
+      if (this.iconName === '') this.$Message.warning('请选择图标')
+      else this.cancel(this.iconName)
     },
     enter (index) {
       console.log(index)
