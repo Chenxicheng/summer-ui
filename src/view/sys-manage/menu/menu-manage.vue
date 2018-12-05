@@ -46,22 +46,26 @@
       </Row>
     </Card>
     <icon-model v-if="showIconModel" @cancel="iconModelCancel"/>
+    <page-form v-if="showPageForm" @cancel="pageFormCancel"/>
   </div>
 </template>
 <script>
 import { getMenuAllList } from '@/api/menu'
 import IconModel from './component/iconModel'
+import PageForm from './component/pageForm'
 
 export default {
   name: 'menu-manage',
   components: {
-    IconModel
+    IconModel,
+    PageForm
   },
   data () {
     return {
       allMenu: [],
       menu: {},
       showIconModel: false,
+      showPageForm: false,
       buttonColumn: [
         {
           type: 'selection',
@@ -108,6 +112,9 @@ export default {
     iconModelCancel (iconName) {
       this.showIconModel = false
       this.menu.icon = iconName
+    },
+    pageFormCancel (reload) {
+
     }
   }
 }
