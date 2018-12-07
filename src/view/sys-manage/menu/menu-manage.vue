@@ -46,7 +46,7 @@
       </Row>
     </Card>
     <icon-model v-if="showIconModel" @cancel="iconModelCancel"/>
-    <page-form v-if="showPageForm" @cancel="pageFormCancel"/>
+    <page-form v-if="showPageForm" :parent-id="parentId" @cancel="pageFormCancel"/>
   </div>
 </template>
 <script>
@@ -64,8 +64,9 @@ export default {
     return {
       allMenu: [],
       menu: {},
-      showIconModel: false,
-      showPageForm: false,
+      parentId: '',
+      showIconModel: false, // 显示图标弹框
+      showPageForm: false, // 显示添加菜单页面弹框
       buttonColumn: [
         {
           type: 'selection',
@@ -101,10 +102,15 @@ export default {
       this.menu = nodeArray[0]
     },
     addOneLevelMenu () {
-
+      this.parentId = '0'
+      this.showIconModel = true
     },
     addNextMenu () {
-
+      if (Object.keys(this.menu)) this.$Message.warn('请选择菜单')
+      else {
+        this.parentId = this.menu.parentId
+        this.showIconModel = true
+      }
     },
     chooseIcon () {
       this.showIconModel = true

@@ -31,13 +31,18 @@
 <script>
 import IconModel from './iconModel'
 
+const BASE_URL = ''
+
 export default {
   name: 'pageForm',
   components: {
     IconModel
   },
   props: {
-
+    parentId: {
+      type: String,
+      default: '0'
+    }
   },
   data () {
     return {

@@ -383,3 +383,25 @@ export const transformRequestData = (obj) => {
   }
   return query.length ? query.substr(0, query.length - 1) : query
 }
+
+/**
+ * 根据选择的id，勾选树形数组
+ * @param {*} treeArray 树形数组
+ * @param {*} checkedArray 选择勾选的数组，唯一且不重复
+ */
+export const checkedTreeNodes = (treeArray, checkedArray) => {
+  for (let i in treeArray) {
+    for (let j in checkedArray) {
+      if (treeArray[i].id === checkedArray[j]) {
+        treeArray[i].checked = true
+      }
+    }
+    if (treeArray[i].children && treeArray[i].children.length) {
+      treeArray[i].children = checkedTreeNodes(treeArray[i].children, checkedArray)
+    }
+    if (treeArray[i].buttonChildren && treeArray[i].buttonChildren.length) {
+      treeArray[i].children = checkedTreeNodes(treeArray[i].buttonChildren, checkedArray)
+    }
+  }
+  return treeArray
+}
